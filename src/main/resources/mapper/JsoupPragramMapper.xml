@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dam.jsoup.updatereport.updatreport.dao.JsoupPragramMapper">
+  <resultMap id="BaseResultMap" type="dam.jsoup.updatereport.updatreport.pojo.JsoupPragram">
+    <!--@mbg.generated-->
+    <!--@Table jsoup_pragram-->
+    <id column="pragram_id" jdbcType="INTEGER" property="pragramId" />
+    <result column="pragram_value" jdbcType="VARCHAR" property="pragramValue" />
+    <result column="mission_id" jdbcType="INTEGER" property="missionId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    pragram_id, pragram_value, mission_id
+  </sql>
+  <select id="selectByExample" parameterType="dam.jsoup.updatereport.updatreport.pojo.JsoupPragramExample" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from jsoup_pragram
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from jsoup_pragram
+    where pragram_id = #{pragramId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from jsoup_pragram
+    where pragram_id = #{pragramId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="dam.jsoup.updatereport.updatreport.pojo.JsoupPragramExample">
+    <!--@mbg.generated-->
+    delete from jsoup_pragram
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="pragram_id" keyProperty="pragramId" parameterType="dam.jsoup.updatereport.updatreport.pojo.JsoupPragram" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into jsoup_pragram (pragram_value, mission_id)
+    values (#{pragramValue,jdbcType=VARCHAR}, #{missionId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="pragram_id" keyProperty="pragramId" parameterType="dam.jsoup.updatereport.updatreport.pojo.JsoupPragram" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into jsoup_pragram
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pragramValue != null and pragramValue != ''">
+        pragram_value,
+      </if>
+      <if test="missionId != null">
+        mission_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pragramValue != null and pragramValue != ''">
+        #{pragramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="missionId != null">
+        #{missionId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="dam.jsoup.updatereport.updatreport.pojo.JsoupPragramExample" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select count(*) from jsoup_pragram
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--@mbg.generated-->
+    update jsoup_pragram
+    <set>
+      <if test="record.pragramId != null">
+        pragram_id = #{record.pragramId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pragramValue != null">
+        pragram_value = #{record.pragramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.missionId != null">
+        mission_id = #{record.missionId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--@mbg.generated-->
+    update jsoup_pragram
+    set pragram_id = #{record.pragramId,jdbcType=INTEGER},
+      pragram_value = #{record.pragramValue,jdbcType=VARCHAR},
+      mission_id = #{record.missionId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="dam.jsoup.updatereport.updatreport.pojo.JsoupPragram">
+    <!--@mbg.generated-->
+    update jsoup_pragram
+    <set>
+      <if test="pragramValue != null and pragramValue != ''">
+        pragram_value = #{pragramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="missionId != null">
+        mission_id = #{missionId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where pragram_id = #{pragramId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="dam.jsoup.updatereport.updatreport.pojo.JsoupPragram">
+    <!--@mbg.generated-->
+    update jsoup_pragram
+    set pragram_value = #{pragramValue,jdbcType=VARCHAR},
+      mission_id = #{missionId,jdbcType=INTEGER}
+    where pragram_id = #{pragramId,jdbcType=INTEGER}
+  </update>
+</mapper>
