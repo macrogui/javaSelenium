@@ -7,7 +7,7 @@ import java.util.Map;
  * @version 1.0
  * @date 2020/12/22 18:27
  */
-public interface ExcuteMission {
+public interface ExecutorMission {
     /**
      * 执行driver操作
      * @param missionId 任务id

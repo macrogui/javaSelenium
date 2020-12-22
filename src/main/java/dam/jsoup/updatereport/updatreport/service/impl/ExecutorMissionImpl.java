@@ -2,7 +2,7 @@ package dam.jsoup.updatereport.updatreport.service.impl;
 
 import dam.jsoup.updatereport.updatreport.dao.*;
 import dam.jsoup.updatereport.updatreport.pojo.*;
-import dam.jsoup.updatereport.updatreport.service.ExcuteMission;
+import dam.jsoup.updatereport.updatreport.service.ExecutorMission;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @Service
 @Slf4j
-public class ExcuteMissionImpl implements ExcuteMission {
+public class ExecutorMissionImpl implements ExecutorMission {
     private final JsoupActionHisMapper jsoupActionHisMapper;
     private final JsoupMissionHistoryMapper jsoupMissionHistoryMapper;
     private final JsoupPragramMapper jsoupPragramMapper;
@@ -30,7 +30,7 @@ public class ExcuteMissionImpl implements ExcuteMission {
     private final JsoupActionMapper jsoupActionMapper;
     private final SettingMapper settingMapper;
 
-    public ExcuteMissionImpl(JsoupActionHisMapper jsoupActionHisMapper, JsoupMissionHistoryMapper jsoupMissionHistoryMapper, JsoupPragramMapper jsoupPragramMapper, JsoupMissionMapper jsoupMissionMapper, JsoupActionMapper jsoupActionMapper, SettingMapper settingMapper) {
+    public ExecutorMissionImpl(JsoupActionHisMapper jsoupActionHisMapper, JsoupMissionHistoryMapper jsoupMissionHistoryMapper, JsoupPragramMapper jsoupPragramMapper, JsoupMissionMapper jsoupMissionMapper, JsoupActionMapper jsoupActionMapper, SettingMapper settingMapper) {
         this.jsoupActionHisMapper = jsoupActionHisMapper;
         this.jsoupMissionHistoryMapper = jsoupMissionHistoryMapper;
         this.jsoupPragramMapper = jsoupPragramMapper;
@@ -83,7 +83,7 @@ public class ExcuteMissionImpl implements ExcuteMission {
        }
        map.put("msg",buffer.toString());
        JsoupMissionHistory jsoupMissionHistory = new JsoupMissionHistory();
-       jsoupMissionHistory.setContent((String) map.get("msg"));
+       jsoupMissionHistory.setContent(map.get("msg"));
        jsoupMissionHistory.setMissionId(missionId);
        jsoupMissionHistory.setMissionTime(new Date());
        jsoupMissionHistoryMapper.insertSelective(jsoupMissionHistory);
