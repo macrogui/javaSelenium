@@ -6,5 +6,19 @@ package dam.jsoup.updatereport.updatreport.service;
  * @date 2020/12/22 18:29
  */
 public interface SendEmail {
-    void sendEmail(String email,String msg);
+    /**
+     *
+     * @param email string email地址
+     * @param msg  email 内容
+     * @param title 标题
+     */
+    void sendEmail(String email,String msg,String title);
+
+    /**
+     *
+     * @param email email地址
+     * @param msg 内容
+     * @param title 标题
+     */
+    void sendHtmlEmail(String email,String msg,String title);
 }

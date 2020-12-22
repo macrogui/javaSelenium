@@ -8,5 +8,10 @@ import java.util.Map;
  * @date 2020/12/22 18:27
  */
 public interface ExcuteMission {
-    Map startMission(int missionId);
+    /**
+     * 执行driver操作
+     * @param missionId 任务id
+     * @return 执行结果
+     */
+    Map<String,String> startMission(int missionId);
 }

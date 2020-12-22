@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
  * @version 1.0
  */
 @Mapper
+@Repository
 public interface JsoupActionHisMapper {
     long countByExample(JsoupActionHisExample example);
 

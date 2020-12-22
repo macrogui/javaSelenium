@@ -5,6 +5,7 @@ import dam.jsoup.updatereport.updatreport.pojo.JsoupMissionHistoryExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author  dam
@@ -12,6 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @version 1.0
  */
 @Mapper
+@Repository
 public interface JsoupMissionHistoryMapper {
     long countByExample(JsoupMissionHistoryExample example);
 
