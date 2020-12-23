@@ -8,23 +8,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author  dam
- * @date  2020/12/22 18:25
+ * @author dam
  * @version 1.0
+ * @date 2020/12/23 10:24
  */
-@ApiModel(value="dam-jsoup-updatereport-updatreport-pojo-JsoupPragram")
+@ApiModel(value = "dam-jsoup-updatereport-updatreport-pojo-JsoupPragram")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class JsoupPragram implements Serializable {
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value = "")
     private Integer pragramId;
 
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value = "")
     private String pragramValue;
 
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value = "")
     private Integer missionId;
+
+    @ApiModelProperty(value = "")
+    private Integer actionId;
 
     private static final long serialVersionUID = 1L;
 }

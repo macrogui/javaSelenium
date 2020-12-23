@@ -5,13 +5,15 @@ import dam.jsoup.updatereport.updatreport.pojo.JsoupPragramExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /**
- * @author  dam
- * @date  2020/12/22 18:25
+ * @author dam
  * @version 1.0
+ * @date 2020/12/23 10:24
  */
 @Mapper
+@Repository
 public interface JsoupPragramMapper {
     long countByExample(JsoupPragramExample example);
 
@@ -19,6 +21,7 @@ public interface JsoupPragramMapper {
 
     /**
      * delete by primary key
+     *
      * @param pragramId primaryKey
      * @return deleteCount
      */
@@ -26,6 +29,7 @@ public interface JsoupPragramMapper {
 
     /**
      * insert record to table
+     *
      * @param record the record
      * @return insert count
      */
@@ -33,6 +37,7 @@ public interface JsoupPragramMapper {
 
     /**
      * insert record to table selective
+     *
      * @param record the record
      * @return insert count
      */
@@ -42,6 +47,7 @@ public interface JsoupPragramMapper {
 
     /**
      * select by primary key
+     *
      * @param pragramId primary key
      * @return object by primary key
      */
@@ -53,6 +59,7 @@ public interface JsoupPragramMapper {
 
     /**
      * update record selective
+     *
      * @param record the updated record
      * @return update count
      */
@@ -60,6 +67,7 @@ public interface JsoupPragramMapper {
 
     /**
      * update record
+     *
      * @param record the updated record
      * @return update count
      */
