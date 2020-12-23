@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class TestDemo {
     @Test
    void   test () throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\Google\\Chrome\\Application\\chromedriver.exe");
         //创建Chrome driver的实例
         WebDriver driver = new ChromeDriver();
         // 最大化浏览器

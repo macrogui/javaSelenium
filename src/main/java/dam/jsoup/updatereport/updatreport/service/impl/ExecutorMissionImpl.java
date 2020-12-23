@@ -65,6 +65,7 @@ public class ExecutorMissionImpl implements ExecutorMission {
            } catch (InterruptedException e) {
                e.printStackTrace();
            }
+
            JsoupAction jsoupAction = jsoupActionMapper.selectByPrimaryKey(pointId);
            if (jsoupAction == null){
                break;
@@ -81,6 +82,7 @@ public class ExecutorMissionImpl implements ExecutorMission {
                break;
            }
        }
+       driver.quit();
        map.put("msg",buffer.toString());
        JsoupMissionHistory jsoupMissionHistory = new JsoupMissionHistory();
        jsoupMissionHistory.setContent(map.get("msg"));
