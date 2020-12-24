@@ -71,6 +71,7 @@ public class ExecutorMissionImpl implements ExecutorMission {
                break;
            }else {
                try {
+                   
                    buffer.append(exAction(jsoupAction,driver,missionId));
                } catch (Exception e) {
                   buffer.append(e);
