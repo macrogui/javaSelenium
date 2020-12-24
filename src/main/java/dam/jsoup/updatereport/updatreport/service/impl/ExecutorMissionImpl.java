@@ -51,13 +51,15 @@ public class ExecutorMissionImpl implements ExecutorMission {
            return map;
        }
         Setting setting = settingMapper.selectByPrimaryKey(1);
+        log.info("创建浏览器实例----开始----，初始化浏览器驱动");
         System.setProperty("webdriver.chrome.driver", setting.getSettingValue());
-        //创建Chrome driver的实例
         WebDriver driver = new ChromeDriver();
-        // 最大化浏览器
-        driver.manage().window().maximize();
+        log.info("创建浏览器实例----结束----，  启动完毕");
+        log.info("跳转浏览器页面----开始----， 准备跳转");
         driver.navigate().to (jsoupMission.getMissionStartUrl());
+        log.info("跳转浏览器页面----结束----， 跳转完毕");
         Integer pointId = jsoupMission.getStartActionId();
+        log.info("获取任务起始action----开始----， 获取完毕 id=[{}]",pointId);
         StringBuilder buffer = new StringBuilder();
        while (true){
            try {
@@ -65,22 +67,103 @@ public class ExecutorMissionImpl implements ExecutorMission {
            } catch (InterruptedException e) {
                e.printStackTrace();
            }
-
            JsoupAction jsoupAction = jsoupActionMapper.selectByPrimaryKey(pointId);
+           log.info("任务启动，开始进行获取action----   完毕  action=[{}]",jsoupAction);
            if (jsoupAction == null){
+               log.info("此次action 为空 结束循环    ------ action=[{}]",jsoupAction);
                break;
            }else {
                try {
-                   
-                   buffer.append(exAction(jsoupAction,driver,missionId));
+
+
+
+                   String type =jsoupAction.getActionEleType()==null?"":jsoupAction.getActionEleType();
+                   WebElement ele =null;
+                   log.info("查找元素  =------   查找类型=[{}] ",type);
+                   switch (type){
+                       case "id": {
+                           ele = driver.findElement(By.id(jsoupAction.getActionEleValue()));
+                           break;
+                       }
+                       case "name":{
+                           ele = driver.findElement(By.name(jsoupAction.getActionEleValue()));
+                           break;
+                       }
+                       case "tagName":{
+                           ele = driver.findElement(By.tagName(jsoupAction.getActionEleValue()));
+                           break;
+                       }
+                       case "className":{
+                           ele = driver.findElement(By.className(jsoupAction.getActionEleValue()));
+                           break;
+                       }
+                       default:{
+                           ele = driver.findElement(By.xpath(jsoupAction.getActionEleValue()));
+                           break;
+                       }
+                   }
+                   log.info("元素是否具有参数     flag=[{}]",jsoupAction.getActionElePragramId() != null && jsoupAction.getActionElePragramId() != 0 );
+                   if (jsoupAction.getActionElePragramId() != null && jsoupAction.getActionElePragramId() != 0){
+                       JsoupPragramExample example =new JsoupPragramExample();
+                       JsoupPragramExample.Criteria criteria = example.createCriteria();
+                       criteria.andMissionIdEqualTo(missionId);
+                       criteria.andActionIdEqualTo(jsoupAction.getActionId());
+                       //此处明日修改 应该添加 actionId 于 pragram中
+                       List<JsoupPragram> list = jsoupPragramMapper.selectByExample(example);
+                       log.info("参数为    string=[{}]",list.get(0).getPragramValue());
+                       ele.sendKeys(list.get(0).getPragramValue());
+                   }
+                   String doType = jsoupAction.getActionDoType()==null?"":jsoupAction.getActionDoType();
+
+                   log.info("元素执行方法    dotype=[{}]",doType);
+                   switch (doType){
+                       case "submit":{
+                           ele.submit();
+                           break;
+                       }
+                       case "clear": {
+                           ele.clear();
+                           break;
+                       }
+                       default:{
+                           ele.click();
+                           break;
+                       }
+                   }
+                   log.info("添加action历史操作记录         "     );
+                   JsoupActionHis jsoupActionHis = new JsoupActionHis();
+                   jsoupActionHis.setActionHisDate(new Date());
+                   try {
+                       jsoupActionHis.setActionHisEleValue(ele.getText());
+                   } catch (Exception e) {
+                       log.info("页面跳转 属性不存在读取值");
+                   }
+                   jsoupActionHis.setActionHisActionId(jsoupAction.getActionId());
+                   jsoupActionHis.setActionHisMissionId(missionId);
+                   jsoupActionHisMapper.insertSelective(jsoupActionHis);
+
+                   String res = "操作：   " + jsoupAction.getActionName() + "     于   " + jsoupActionHis.getActionHisDate() + "   执行成功    ";
+
+
+
+
+
+//                   String res = exAction(jsoupAction,driver,missionId);
+                   log.info("执行本次action     结果------ res=[{}",res);
+                   buffer.append(res);
                } catch (Exception e) {
                   buffer.append(e);
+                  log.error("执行错误======="+ e);
+                  e.printStackTrace();
+                  return null;
                }
            }
+           log.info("判断action是否 具有 后续action    结果--- flag=[{}]",jsoupAction.getActionAfterId() == null || jsoupAction.getActionAfterId() ==0);
            if (jsoupAction.getActionAfterId() == null || jsoupAction.getActionAfterId() ==0){
-               pointId = jsoupAction.getActionAfterId();
-           }else {
+               log.info("action 全部执行完毕    结果     msg=[{}] ", buffer.toString());
                break;
+           }else {
+               pointId = jsoupAction.getActionAfterId();
            }
        }
        driver.quit();
@@ -95,64 +178,7 @@ public class ExecutorMissionImpl implements ExecutorMission {
        return map;
     }
 
-    private String exAction(JsoupAction action,WebDriver driver,int missionId){
-        String type =action.getActionEleType();
-        WebElement ele;
-        switch (type){
-           case "id": {
-                ele = driver.findElement(By.id(action.getActionEleValue()));
-               break;
-           }
-           case "name":{
-                ele = driver.findElement(By.name(action.getActionEleValue()));
-               break;
-           }
-           case "tagName":{
-                ele = driver.findElement(By.tagName(action.getActionEleValue()));
-            break;
-           }
-           case "className":{
-                ele = driver.findElement(By.className(action.getActionEleValue()));
-               break;
-           }
-           default:{
-               ele = driver.findElement(By.xpath(action.getActionEleValue()));
-               break;
-           }
-       }
-         if (action.getActionElePragramId() != null && action.getActionElePragramId() != 0){
-             JsoupPragramExample example =new JsoupPragramExample();
-             JsoupPragramExample.Criteria criteria = example.createCriteria();
-             criteria.andMissionIdEqualTo(missionId);
-             criteria.andActionIdEqualTo(action.getActionId());
-             //此处明日修改 应该添加 actionId 于 pragram中
-             List<JsoupPragram> list = jsoupPragramMapper.selectByExample(example);
-             ele.sendKeys(list.get(0).getPragramValue());
-         }
-         String doType = action.getActionDoType();
-         switch (doType){
-             case "submit":{
-                 ele.submit();
-                 break;
-             }
-             case "clear": {
-                 ele.clear();
-                 break;
-             }
-             default:{
-                ele.click();
-                break;
-             }
-         }
-         JsoupActionHis jsoupActionHis = new JsoupActionHis();
-         jsoupActionHis.setActionHisDate(new Date());
-         jsoupActionHis.setActionHisEleValue(ele.getText());
-         jsoupActionHis.setActionHisActionId(action.getActionId());
-         jsoupActionHis.setActionHisMissionId(missionId);
-         jsoupActionHisMapper.insertSelective(jsoupActionHis);
 
-         return "操作：   " + action.getActionName() + "     于   " + jsoupActionHis.getActionHisDate() + "   执行成功    ";
-    }
 
 
 }
